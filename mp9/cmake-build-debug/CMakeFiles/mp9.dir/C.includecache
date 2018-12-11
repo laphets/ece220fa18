@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/laphets/Desktop/ECE220/ece220fa18/mp9/mp5.h
+stdint.h
+-
+
+/Users/laphets/Desktop/ECE220/ece220fa18/mp9/mp9.c
+stdint.h
+-
+stdio.h
+-
+stdlib.h
+-
+mp5.h
+/Users/laphets/Desktop/ECE220/ece220fa18/mp9/mp5.h
+mp9.h
+/Users/laphets/Desktop/ECE220/ece220fa18/mp9/mp9.h
+
+/Users/laphets/Desktop/ECE220/ece220fa18/mp9/mp9.h
+stdint.h
+-
+

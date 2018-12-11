@@ -1,0 +1,24 @@
+Compiler Output:
+****************
+gcc -c -Wall -g -o mp9.o mp9.c
+gcc -c -Wall -g -o mp9match.o mp9match.c
+gcc -c -Wall -g -o main.o main.c
+gcc -c -Wall -g -o gold.o gold.c
+gcc mp9.o mp9match.o main.o gold.o -o mp9 -g -lm
+
+Grade:
+******
+Late submission: 
+match_requests works correctly: 15/15
+find_nodes works correctly: 15/15
+trim_nodes works correctly: 5/5
+dijkstra works correctly: 25/25
+Functionality subtotal: 60/60
+find_nodes is reasonably efficient: 5/5
+trim_nodes compresses in place: 5/5
+Heap implemented well in dijkstra: 5/5
+Only one call of dijkstra required: 5/5
+Introductory paragraph: 0/5
+Function headers: 5/5
+Clear and well-commented: 10/10
+Total: 95/100

@@ -1,0 +1,312 @@
+<html>
+<head>
+<title>mp9.c</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808000;}
+.s1 { color: #000000;}
+.s2 { color: #008000; font-weight: bold;}
+.s3 { color: #0000ff;}
+.s4 { color: #808080; font-style: italic;}
+.s5 { color: #000080; font-weight: bold;}
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+mp9.c</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">#include </span><span class="s2">&lt;stdint.h&gt;</span>
+<span class="s0">#include </span><span class="s2">&lt;stdio.h&gt;</span>
+
+<span class="s0">#include </span><span class="s2">&lt;stdlib.h&gt;</span>
+
+<span class="s0">#include </span><span class="s2">&quot;mp5.h&quot;</span>
+<span class="s0">#include </span><span class="s2">&quot;mp9.h&quot;</span>
+
+<span class="s0">#define </span>MY_INFINITY   <span class="s3">1000000000</span>
+
+
+<span class="s4">/*** 
+<a name="l2"><span class="ln">2    </span></a> * starting at array index nnum of a pyramid tree, find vertices within range 
+<a name="l3"><span class="ln">3    </span></a> * of a locale and write their ids into a vertex set 
+<a name="l4"><span class="ln">4    </span></a> * @param loc the location specification 
+<a name="l5"><span class="ln">5    </span></a> * @param vs the vetex set 
+<a name="l6"><span class="ln">6    </span></a> * @param p the pyr tree 
+<a name="l7"><span class="ln">7    </span></a> * @param nnum the cur index of the pyr tree 
+<a name="l8"><span class="ln">8    </span></a> */</span>
+<span class="s5">void</span>
+find_nodes (locale_t* loc, vertex_set_t* vs, pyr_tree_t* p, int32_t nnum)
+{
+    <span class="s4">// Do not modify the following line nor add anything above in the function.</span>
+    record_fn_call ();
+
+    <span class="s4">// Check for overflow</span>
+    <span class="s5">if</span>(nnum &gt;= p-&gt;n_nodes) {
+        <span class="s5">return</span>;
+    }
+    
+    <span class="s4">// First get the current node</span>
+    pyr_node_t* curNode = &amp;(p-&gt;node[nnum]);
+
+
+    <span class="s4">// We can check whether it's a leaf node</span>
+    <span class="s5">if</span>(nnum*<span class="s3">4</span>+<span class="s3">1 </span>&gt;= p-&gt;n_nodes) {
+        <span class="s4">// It's leaf</span>
+        // Then check whether it's in range
+        <span class="s5">if</span>(in_range(loc, curNode-&gt;x, curNode-&gt;y_left)) {
+            <span class="s4">// Try to add it into the set</span>
+            // Check for the range TODO: It may can overflow
+            <span class="s5">if</span>(vs-&gt;count &gt;= MAX_IN_VERTEX_SET) {
+                <span class="s5">return</span>;
+            }
+            vs-&gt;id[vs-&gt;count++] = curNode-&gt;id;
+        }
+        <span class="s5">return</span>;
+    }
+
+    <span class="s4">// If it's not leaf, then, try to find valid in range node</span>
+    // First, we can get the four boundings
+    int32_t xLeft = loc-&gt;x - loc-&gt;range;
+    int32_t xRight = loc-&gt;x + loc-&gt;range;
+    int32_t yUp = loc-&gt;y - loc-&gt;range;
+    int32_t yDown = loc-&gt;y + loc-&gt;range;
+
+    <span class="s4">// Then, checking for four regions</span>
+    <span class="s5">if</span>(xLeft &lt;= curNode-&gt;x) {
+        <span class="s5">if</span>(yUp &lt;= curNode-&gt;y_left) {
+            find_nodes(loc, vs, p, nnum*<span class="s3">4</span>+<span class="s3">1</span>);
+        }
+        <span class="s5">if</span>(yDown &gt;= curNode-&gt;y_left) {
+            find_nodes(loc, vs, p, nnum*<span class="s3">4</span>+<span class="s3">3</span>);
+        }
+    }
+    <span class="s5">if</span>(xRight &gt;= curNode-&gt;x) {
+        <span class="s5">if</span>(yUp &lt;= curNode-&gt;y_right) {
+            find_nodes(loc, vs, p, nnum*<span class="s3">4</span>+<span class="s3">2</span>);
+        }
+        <span class="s5">if</span>(yDown &gt;= curNode-&gt;y_right) {
+            find_nodes(loc, vs, p, nnum*<span class="s3">4</span>+<span class="s3">4</span>);
+        }
+    }
+}
+
+
+<span class="s4">/*** 
+<a name="l9"><span class="ln">9    </span></a> * remove any vertices not in range of a locale from a vertex set 
+<a name="l10"><span class="ln">10   </span></a> * @param g the pointer to the graph 
+<a name="l11"><span class="ln">11   </span></a> * @param vs the vertex set 
+<a name="l12"><span class="ln">12   </span></a> * @param loc the location and range specification 
+<a name="l13"><span class="ln">13   </span></a> */</span>
+<span class="s5">void</span>
+trim_nodes (graph_t* g, vertex_set_t* vs, locale_t* loc)
+{
+    int32_t tmp[MAX_IN_VERTEX_SET], k = <span class="s3">0</span>;
+    <span class="s5">for</span>(int32_t i = <span class="s3">0</span>; i &lt; vs-&gt;count; i++) {
+        vertex_t* curVertex = &amp;(g-&gt;vertex[vs-&gt;id[i]]);
+        <span class="s5">if</span>(in_range(loc, curVertex-&gt;x, curVertex-&gt;y)) {
+            <span class="s5">if</span>(k &gt;= MAX_IN_VERTEX_SET) {
+                <span class="s5">break</span>;
+            }
+            tmp[k++] = vs-&gt;id[i];
+        }
+    }
+
+    vs-&gt;count = k;
+    <span class="s5">for</span>(int32_t i = <span class="s3">0</span>; i &lt; k; i ++) {
+        vs-&gt;id[i] = tmp[i];
+    }
+}
+
+<span class="s4">/*** 
+<a name="l14"><span class="ln">14   </span></a> * Swap two variable 
+<a name="l15"><span class="ln">15   </span></a> * @param a the first variable 
+<a name="l16"><span class="ln">16   </span></a> * @param b the second variable 
+<a name="l17"><span class="ln">17   </span></a> */</span>
+<span class="s5">void </span>swap(int32_t* a, int32_t* b) {
+    int32_t tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+<span class="s4">/*** 
+<a name="l18"><span class="ln">18   </span></a> * Shift down an element in the heap, to maintain its structure 
+<a name="l19"><span class="ln">19   </span></a> * @param g the pointer to graph 
+<a name="l20"><span class="ln">20   </span></a> * @param h the pointer to heap 
+<a name="l21"><span class="ln">21   </span></a> * @param i current index in the heap array 
+<a name="l22"><span class="ln">22   </span></a> */</span>
+<span class="s5">void </span>shift_down(graph_t *g, heap_t *h, int32_t i) {
+    int32_t smallest = i;
+    int32_t l = <span class="s3">2 </span>* i + <span class="s3">1</span>;
+    int32_t r = <span class="s3">2 </span>* i + <span class="s3">2</span>;
+
+    <span class="s4">// Check for left child</span>
+    <span class="s5">if</span>(l &lt; h-&gt;n_elts &amp;&amp; g-&gt;vertex[h-&gt;elt[l]].from_src &lt; g-&gt;vertex[h-&gt;elt[smallest]].from_src) {
+        smallest = l;
+    }
+    <span class="s4">// Check for right child</span>
+    <span class="s5">if</span>(r &lt; h-&gt;n_elts &amp;&amp; g-&gt;vertex[h-&gt;elt[r]].from_src &lt; g-&gt;vertex[h-&gt;elt[smallest]].from_src) {
+        smallest = r;
+    }
+
+    <span class="s5">if</span>(smallest != i) {
+        swap(&amp;h-&gt;elt[smallest], &amp;h-&gt;elt[i]);
+        shift_down(g, h, smallest);
+    }
+}
+<span class="s4">/*** 
+<a name="l23"><span class="ln">23   </span></a> * Shift up an element in the heap, to maintain its structure 
+<a name="l24"><span class="ln">24   </span></a> * @param g the pointer to graph 
+<a name="l25"><span class="ln">25   </span></a> * @param h the pointer to heap 
+<a name="l26"><span class="ln">26   </span></a> * @param i current index in the heap array 
+<a name="l27"><span class="ln">27   </span></a> */</span>
+<span class="s5">void </span>shift_up(graph_t *g, heap_t* h, int32_t i) {
+    <span class="s5">if</span>(i == <span class="s3">0</span>) {
+        <span class="s5">return</span>;
+    }
+    int32_t parent = (i-<span class="s3">1</span>)/<span class="s3">2</span>;
+    <span class="s4">// If cur is less than parent, then, exchange</span>
+    <span class="s5">if</span>(g-&gt;vertex[h-&gt;elt[i]].from_src &lt; g-&gt;vertex[h-&gt;elt[parent]].from_src) {
+        swap(&amp;h-&gt;elt[i], &amp;h-&gt;elt[parent]);
+        shift_up(g, h, parent);
+    }
+}
+<span class="s4">/*** 
+<a name="l28"><span class="ln">28   </span></a> * Get the top element of the heap 
+<a name="l29"><span class="ln">29   </span></a> * @param h the pointer to the heap 
+<a name="l30"><span class="ln">30   </span></a> * @return the top element id 
+<a name="l31"><span class="ln">31   </span></a> */</span>
+int32_t get_top(heap_t* h) {
+    <span class="s5">if</span>(h-&gt;n_elts == <span class="s3">0</span>) {
+        <span class="s5">return </span>-<span class="s3">1</span>;
+    }
+    <span class="s5">return </span>h-&gt;elt[<span class="s3">0</span>];
+}
+<span class="s4">/*** 
+<a name="l32"><span class="ln">32   </span></a> * Get the size of the heap 
+<a name="l33"><span class="ln">33   </span></a> * @param h the pointer to the heap 
+<a name="l34"><span class="ln">34   </span></a> * @return the size of the heap 
+<a name="l35"><span class="ln">35   </span></a> */</span>
+int32_t get_size(heap_t* h) {
+    <span class="s5">return </span>h-&gt;n_elts;
+}
+<span class="s4">/*** 
+<a name="l36"><span class="ln">36   </span></a> * Pop the top element from the heap 
+<a name="l37"><span class="ln">37   </span></a> * @param g the poniter to the graph 
+<a name="l38"><span class="ln">38   </span></a> * @param h the pointer to the heap 
+<a name="l39"><span class="ln">39   </span></a> */</span>
+<span class="s5">void </span>pop(graph_t* g, heap_t* h) {
+    <span class="s4">// If it's empty, then directly return</span>
+    <span class="s5">if</span>(h-&gt;n_elts == <span class="s3">0</span>) {
+        <span class="s5">return</span>;
+    }
+    <span class="s4">// Just exchange first element with last, then shift down</span>
+    swap(&amp;h-&gt;elt[<span class="s3">0</span>], &amp;h-&gt;elt[h-&gt;n_elts-<span class="s3">1</span>]);
+    h-&gt;n_elts--;
+    shift_down(g, h, <span class="s3">0</span>);
+}
+<span class="s4">/*** 
+<a name="l40"><span class="ln">40   </span></a> * Insert an element to the heap 
+<a name="l41"><span class="ln">41   </span></a> * @param g the pointer to the graph 
+<a name="l42"><span class="ln">42   </span></a> * @param h the pointer to the heap 
+<a name="l43"><span class="ln">43   </span></a> * @param id the id of the element 
+<a name="l44"><span class="ln">44   </span></a> */</span>
+<span class="s5">void </span>insert(graph_t* g, heap_t* h, int32_t id) {
+    h-&gt;elt[h-&gt;n_elts++] = id;
+    shift_up(g, h, h-&gt;n_elts-<span class="s3">1</span>);
+}
+
+
+<span class="s4">/*** 
+<a name="l45"><span class="ln">45   </span></a> * find the shortest path between any node in the src vertex set and any 
+<a name="l46"><span class="ln">46   </span></a> * node in the destination vertex set, and write that path into path; 
+<a name="l47"><span class="ln">47   </span></a> * returns 1 on success, or 0 on failure 
+<a name="l48"><span class="ln">48   </span></a> * @param g the pointer to graph 
+<a name="l49"><span class="ln">49   </span></a> * @param h the pointer to heap 
+<a name="l50"><span class="ln">50   </span></a> * @param src the pointer to src set 
+<a name="l51"><span class="ln">51   </span></a> * @param dest the pointer to dest set 
+<a name="l52"><span class="ln">52   </span></a> * @param path the pointer to path 
+<a name="l53"><span class="ln">53   </span></a> * @return 1 on success, or 0 on failure 
+<a name="l54"><span class="ln">54   </span></a> */</span>
+int32_t
+dijkstra (graph_t* g, heap_t* h, vertex_set_t* src, vertex_set_t* dest,
+          path_t* path)
+{
+    <span class="s5">for</span>(int32_t i = <span class="s3">0</span>; i &lt; g-&gt;n_vertices; i++) {
+        g-&gt;vertex[i].heap_id = <span class="s3">0</span>;
+        g-&gt;vertex[i].from_src = MY_INFINITY;
+    }
+
+    <span class="s4">// Initialize heap</span>
+    h-&gt;n_elts = <span class="s3">0</span>;
+
+    <span class="s4">// Initizalize for start points</span>
+    <span class="s5">for</span>(int32_t i = <span class="s3">0</span>; i &lt; src-&gt;count; i++) {
+        int32_t  startId = src-&gt;id[i];
+        g-&gt;vertex[startId].from_src = <span class="s3">0</span>;
+        g-&gt;vertex[startId].pred = -<span class="s3">1</span>;
+        insert(g, h, startId);
+    }
+
+    <span class="s4">// Implement dijkstra with heap</span>
+    <span class="s5">while</span>(get_size(h)) {
+        int32_t curId = get_top(h);
+        pop(g, h);
+
+        <span class="s5">if</span>(g-&gt;vertex[curId].heap_id != <span class="s3">0</span>) {
+            <span class="s5">continue</span>;
+        }
+
+        g-&gt;vertex[curId].heap_id = <span class="s3">1</span>;
+        vertex_t* curVertex = &amp;(g-&gt;vertex[curId]);
+
+        <span class="s5">for</span>(int32_t k = <span class="s3">0</span>; k &lt; curVertex-&gt;n_neighbors; k ++) {
+            int32_t extId = curVertex-&gt;neighbor[k];
+            <span class="s5">if</span>(!g-&gt;vertex[extId].heap_id &amp;&amp; g-&gt;vertex[curId].from_src + curVertex-&gt;distance[k] &lt; g-&gt;vertex[extId].from_src) {
+                g-&gt;vertex[extId].from_src = g-&gt;vertex[curId].from_src + curVertex-&gt;distance[k];
+                g-&gt;vertex[extId].pred = curId;
+                insert(g, h, extId);
+            }
+        }
+    }
+
+    <span class="s4">// Find shortest endponits</span>
+    int32_t minn = MY_INFINITY;
+    int32_t destX = -<span class="s3">1</span>;
+    <span class="s5">for</span>(int32_t i = <span class="s3">0</span>; i &lt; dest-&gt;count; i ++) {
+        int32_t destId = dest-&gt;id[i];
+        <span class="s5">if</span>(g-&gt;vertex[destId].from_src &lt; minn) {
+            minn = g-&gt;vertex[destId].from_src;
+            destX = destId;
+        }
+    }
+
+    <span class="s4">// Do not have</span>
+    <span class="s5">if</span>(destX == -<span class="s3">1</span>) {
+        path-&gt;tot_dist = MY_INFINITY;
+        <span class="s5">return </span><span class="s3">0</span>;
+    }
+
+    int32_t id[MAX_PATH_LENGTH];
+
+    path-&gt;tot_dist = minn;
+    path-&gt;n_vertices = <span class="s3">0</span>;
+    <span class="s5">for</span>(int32_t i = destX; i != -<span class="s3">1</span>; i = g-&gt;vertex[i].pred) {
+        <span class="s5">if</span>(path-&gt;n_vertices &gt;= MAX_PATH_LENGTH) {
+            <span class="s4">//TODO: Whether should we return 0, or break</span>
+            <span class="s5">return </span><span class="s3">0</span>;
+        }
+        id[path-&gt;n_vertices++] = i;
+    }
+    <span class="s5">for</span>(int32_t i = <span class="s3">0</span>; i &lt; path-&gt;n_vertices; i++) {
+        path-&gt;id[i] = id[path-&gt;n_vertices-i-<span class="s3">1</span>];
+    }
+
+    <span class="s5">return </span><span class="s3">1</span>;
+}
+
+</pre>
+</body>
+</html>
