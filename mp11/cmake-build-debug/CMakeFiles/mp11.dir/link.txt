@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/mp11.dir/ece220_label.c.o CMakeFiles/mp11.dir/ece220_symtab.c.o CMakeFiles/mp11.dir/mp11.c.o CMakeFiles/mp11.dir/mp11base.c.o  -o mp11 
