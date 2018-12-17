@@ -52,8 +52,11 @@
 /* not part of ANSI, but in gcclib */
 extern char* strdup (const char* s);
 extern int fileno (FILE* stream);
-extern int vsnprintf (char* s, size_t len, const char* fmt, ...);
 
+#if 0
+/* To avoid mac unknown compiler error */
+extern int vsnprintf (char* s, size_t len, const char* fmt, ...);
+#endif
 
 ece220_token_t ece220token;
 

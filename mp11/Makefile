@@ -25,4 +25,4 @@ clean::
 	rm -f *.o *~ *.output
 
 clear: clean
-	rm -f ece220_lex.yy.c ece220_parse.tab.c ece220_parse.tab.h ${TARGET}
+	rm -f ece220_lex.yy.c ${TARGET}

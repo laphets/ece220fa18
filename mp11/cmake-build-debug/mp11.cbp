@@ -91,7 +91,16 @@
 		<Unit filename="/Users/laphets/Desktop/ECE220/ece220fa18/mp11/ece220_lex.h">
 			<Option target="mp11"/>
 		</Unit>
+		<Unit filename="/Users/laphets/Desktop/ECE220/ece220fa18/mp11/ece220_lex.yy.c">
+			<Option target="mp11"/>
+		</Unit>
 		<Unit filename="/Users/laphets/Desktop/ECE220/ece220fa18/mp11/ece220_parse.h">
+			<Option target="mp11"/>
+		</Unit>
+		<Unit filename="/Users/laphets/Desktop/ECE220/ece220fa18/mp11/ece220_parse.tab.c">
+			<Option target="mp11"/>
+		</Unit>
+		<Unit filename="/Users/laphets/Desktop/ECE220/ece220fa18/mp11/ece220_parse.tab.h">
 			<Option target="mp11"/>
 		</Unit>
 		<Unit filename="/Users/laphets/Desktop/ECE220/ece220fa18/mp11/ece220_symtab.c">

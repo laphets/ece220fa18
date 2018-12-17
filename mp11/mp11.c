@@ -104,7 +104,7 @@ static void gen_op_cmp_greater (ast220_t* ast);
  * static int foo;  <-- a file scope variable ("static" means only this file)
  *
  */
-
+static ece220_label_t* stack_tear_label;
 
 
 /* 
@@ -124,6 +124,14 @@ static void gen_op_cmp_greater (ast220_t* ast);
 void 
 MP11_generate_code (ast220_t* prog)
 {
+    // Generate stack_tear_label
+    stack_tear_label = label_create();
+
+    for(ast220_t* ptr = prog; ptr != NULL; ptr = ptr->next) {
+        gen_statement(ptr);
+    }
+
+    printf("%s\n", label_value(stack_tear_label));
 }
 
 /*
@@ -218,6 +226,30 @@ gen_if_statement (ast220_t* ast)
 static void 
 gen_return_statement (ast220_t* ast)
 {
+    // Generate one label for the end redirect
+    ece220_label_t* end_label = label_create();
+    // Generate to skip fill
+    ece220_label_t* skip_label = label_create();
+
+    // First create local variable for it's left node
+    gen_push_int(ast->left);
+
+    // Pop the local varibale from stack
+    printf("\tLDR R0,R6,#0\n");
+    printf("\tADD R6,R6,#1\n");
+
+    // Store it into R5+3
+    printf("\tSTR R0,R5,#3\n");
+
+    // JMP to the end
+    printf("\tLD R3,%s\n", label_value(end_label));
+    printf("\tJMP R3\n");
+
+    // Create for the end addr
+    printf("%s\n", label_value(end_label));
+    printf("\t.FILL %s\n", label_value(stack_tear_label));
+    // Generate skip label after fill
+    printf("%s\n", label_value(skip_label));
 }
 
 /* 
@@ -305,6 +337,31 @@ gen_expression (ast220_t* ast)
 static void 
 gen_push_int (ast220_t* ast)
 {
+    ece220_label_t* int_label = label_create();
+    ece220_label_t* next_label = label_create();
+
+    // Load the value to R0
+    // LD R0,int_label
+    printf("\tLD R0,%s\n", label_value(int_label));
+
+    // Push it into the stack
+    // First decrease stack ptr(R6--)
+    // ADD R6,R6,#-1
+    printf("\tADD R6,R6,#-1\n");
+
+    // Then store it into the stack
+    // STR R3, R6, #0 where R0 is data stored
+    printf("\tSTR R0,R6,#0\n");
+
+    // JMP to skip .FILL
+    printf("\tBRnzp %s\n", label_value(next_label));
+
+    // Generate the label with the int value
+    printf ("%s\n", label_value(int_label));
+    printf ("\t.FILL %d\n", ast->value);
+
+    // Generate the next label to skip fill, otherwise, it may occur some crash
+    printf("%s\n", label_value(next_label));
 }
 
 /* 
@@ -319,6 +376,25 @@ gen_push_int (ast220_t* ast)
 static void 
 gen_push_str (ast220_t* ast)
 {
+    ece220_label_t* string_label = label_create();
+    ece220_label_t* next_label = label_create();
+
+    // Load the address of the first letter
+    printf("\tLEA R0,%s\n", label_value(string_label));
+
+    // Push it into the stack
+    printf("\tADD R6,R6,#-1\n");
+    printf("\tSTR R0,R6,#0\n");
+
+    // Skip string data
+    printf("\tBRnzp %s\n", label_value(next_label));
+
+    // Create string data
+    printf("%s\n", label_value(string_label));
+    printf("\t.STRINGZ %s\n", ast->name);
+
+    // Print skip label
+    printf("%s\n", label_value(next_label));
 }
 
 /* 
@@ -348,6 +424,22 @@ gen_push_variable (ast220_t* ast)
 static void 
 gen_func_call (ast220_t* ast)
 {
+    // First try to push the argument
+    for(ast220_t* arg = ast->left; arg != NULL; arg = arg->next) {
+        switch (arg->type) {
+            case AST220_PUSH_INT:
+                break;
+            case AST220_PUSH_STR:
+                break;
+            case AST220_VARIABLE:
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    // Then try to get the return value
 }
 
 /* 
@@ -452,6 +544,25 @@ gen_op_post_decr (ast220_t* ast)
 static void 
 gen_op_add (ast220_t* ast)
 {
+    // Left for the first operand
+    // Right for the second operand
+    gen_push_int(ast->left);
+    gen_push_int(ast->right);
+
+    // Get the first operand to R0
+    printf("\tLDR R0,R6,#0\n");
+    printf("\tADD R6,R6,#1\n");
+
+    // Get the second operand to R1
+    printf("\tLDR R1,R6,#0\n");
+    printf("\tADD R6,R6,#1\n");
+
+    // Solve for the solution to R0
+    printf("\tADD R0,R0,R1\n");
+
+    // Push back to the stack
+    printf("\tADD R6,R6,#-1\n");
+    printf("\tSTR R0,R6,#0\n");
 }
 
 /* 
@@ -466,6 +577,30 @@ gen_op_add (ast220_t* ast)
 static void 
 gen_op_sub (ast220_t* ast)
 {
+    // TODO: Determine the subtraction order
+    // Left for the first operand
+    // Right for the second operand
+    gen_push_int(ast->left);
+    gen_push_int(ast->right);
+
+    // Get the first operand to R0
+    printf("\tLDR R0,R6,#0\n");
+    printf("\tADD R6,R6,#1\n");
+
+    // Get the second operand to R1
+    printf("\tLDR R1,R6,#0\n");
+    printf("\tADD R6,R6,#1\n");
+
+    // Get the minus sign of R0
+    printf("\tNOT R0,R0\n");
+    printf("\nADD R0,R0,#1\n");
+
+    // Store the sum to R0
+    printf("\tADD R0,R0,R1\n");
+
+    // Push back to stack
+    printf("\tADD R6,R6,#-1\n");
+    printf("\tSTR R0,R6,#0\n");
 }
 
 /* 
@@ -526,6 +661,20 @@ gen_op_mod (ast220_t* ast)
 static void 
 gen_op_negate (ast220_t* ast)
 {
+    // Create local variable
+    gen_push_int(ast->left);
+
+    // First take the value off the stack
+    // Load it into R0
+    printf("\tLDR R0,R6,#0\n");
+    printf("\tADD R6,R6,#1\n");
+
+    // Negate R0
+    printf("\tNOT R0,R0\n");
+
+    // Push it into the stack
+    printf("\tADD R6,R6,#-1\n");
+    printf("\tSTR R0,R6,#0\n");
 }
 
 /* 

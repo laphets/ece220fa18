@@ -10,6 +10,9 @@ add_executable(mp11
         ece220_label.h
         ece220_lex.h
         ece220_parse.h
+        ece220_parse.tab.c
+        ece220_parse.tab.h
+        ece220_lex.yy.c
         ece220_symtab.c
         ece220_symtab.h
         mp11.c

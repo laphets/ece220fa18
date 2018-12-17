@@ -54,12 +54,14 @@ extern void MP11_generate_code (ast220_t* prog);
 int
 main ()
 {
+    freopen("./tests/c.c", "r", stdin);
     ast220_t* program;
 
     if (NULL == (program = ece220_parse_program ())) {
         /* parse failed; stop now */
 	return 3;
     }
+
 
     if (-1 == dump_prefix ()) {
         return 3;

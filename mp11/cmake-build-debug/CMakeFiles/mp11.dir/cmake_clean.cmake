@@ -1,5 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/mp11.dir/ece220_label.c.o"
+  "CMakeFiles/mp11.dir/ece220_parse.tab.c.o"
+  "CMakeFiles/mp11.dir/ece220_lex.yy.c.o"
   "CMakeFiles/mp11.dir/ece220_symtab.c.o"
   "CMakeFiles/mp11.dir/mp11.c.o"
   "CMakeFiles/mp11.dir/mp11base.c.o"
