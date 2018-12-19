@@ -60,17 +60,33 @@ MAIN	ADD	R6,R6,#-3
 	STR R0,R6,#0
 	BRnzp LBL3
 LBL2
-	.FILL #42
+	.FILL #40
 LBL3
+	LD R0,LBL4
+	ADD R6,R6,#-1
+	STR R0,R6,#0
+	BRnzp LBL5
+LBL4
+	.FILL #8
+LBL5
+	LDR R1,R6,#0
+	ADD R6,R6,#1
+	LDR R0,R6,#0
+	ADD R6,R6,#1
+	NOT R1,R1
+	ADD R1,R1,#1
+	ADD R0,R0,R1
+	ADD R6,R6,#-1
+	STR R0,R6,#0
 	LDR R0,R6,#0
 	ADD R6,R6,#1
 	STR R0,R5,#3
-	;  LBL5
-	LD R3,LBL4
+	;  LBL7
+	LD R3,LBL6
 	JMP R3
-LBL4
+LBL6
 	.FILL LBL1
-LBL5
+LBL7
 LBL1
 
 ;---------------------------------------------------------------------------

@@ -409,6 +409,19 @@ gen_push_str (ast220_t* ast)
 static void 
 gen_push_variable (ast220_t* ast)
 {
+    // TODO: consider array
+    symtab_entry_t* sym_var = symtab_lookup(ast->name);
+    if(sym_var->is_global) {
+        // Is global
+        printf("\tLDR R0,R4,#%d\n", sym_var->offset);
+    } else {
+        // Local variable
+        printf("\tLDR R0,R5,#%d\n", sym_var->offset);
+    }
+
+    // Push it into the stack
+    printf("\tADD R6,R6,#-1\n");
+    printf("\tSTR R0,R6,#0\n");
 }
 
 /* 
@@ -424,22 +437,40 @@ gen_push_variable (ast220_t* ast)
 static void 
 gen_func_call (ast220_t* ast)
 {
+    ece220_label_t* target_fun_label = label_create();
+    ece220_label_t* skip_label = label_create();
+    char* func_map[NUM_AST220_BUILTIN_FUNCS] = {"PRINTF", "RAND", "SCANF", "SRAND"};
     // First try to push the argument
+    // TODO: May occur some problem here
     for(ast220_t* arg = ast->left; arg != NULL; arg = arg->next) {
         switch (arg->type) {
             case AST220_PUSH_INT:
+                gen_push_int(arg);
                 break;
             case AST220_PUSH_STR:
+                gen_push_str(arg);
                 break;
             case AST220_VARIABLE:
+
                 break;
             default:
                 break;
         }
     }
 
+    printf("\tLD R0,%s\n", label_value(target_fun_label));
+    printf("\tJSRR R0\n");
+
+    // Skip fill
+    printf("\tBRnzp %s\n", label_value(skip_label));
+
+    printf("%s\n", label_value(target_fun_label));
+    printf("\t.FILL %s\n", func_map[ast->fnum]);
+
+    printf("%s\n", label_value(skip_label));
 
     // Then try to get the return value
+    // TODO: skip here
 }
 
 /* 
@@ -454,6 +485,7 @@ gen_func_call (ast220_t* ast)
 static void 
 gen_get_address (ast220_t* ast)
 {
+
 }
 
 /* 
