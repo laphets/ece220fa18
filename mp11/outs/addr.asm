@@ -40,6 +40,7 @@ MAIN	ADD	R6,R6,#-3
 ; local variable space allocation
 ;---------------------------------------------------------------------------
 
+	ADD R6,R6,#-1
 
 ;---------------------------------------------------------------------------
 ; R0...R3 are callee-saved
@@ -55,29 +56,47 @@ MAIN	ADD	R6,R6,#-3
 ; STUDENT CODE STARTS HERE (after the symbol table)
 ;---------------------------------------------------------------------------
 
+;                  arr[20]       global          offset=+0
+;                    b           local to main   offset=+0
 	LD R0,LBL2
 	ADD R6,R6,#-1
 	STR R0,R6,#0
 	BRnzp LBL3
 LBL2
-	.FILL #40
+	.FILL #2
 LBL3
+	ADD R0,R5,#0
+	LDR R1,R6,#0
+	STR R1,R0,#0
+	ADD R6,R6,#1
+
+	; Store
+	ADD R0,R5,#0
+	ADD R6,R6,#-1
+	STR R0,R6,#0
+
 	LD R0,LBL4
 	ADD R6,R6,#-1
 	STR R0,R6,#0
 	BRnzp LBL5
 LBL4
-	.FILL #8
+	.FILL #10
 LBL5
+
+	LDR R1,R6,#0	; R1 = 10
+	ADD R6,R6,#1	; Pop
+
+	ADD R0,R4,#0	; R0 = R4 + offset
+	ADD R0,R1,R0	; R0 += index(r1)
+	ADD R6,R6,#-1
+	STR R0,R6,#0
+
+	
 	LDR R1,R6,#0
 	ADD R6,R6,#1
 	LDR R0,R6,#0
 	ADD R6,R6,#1
-	NOT R1,R1
-	ADD R1,R1,#1
 	ADD R0,R0,R1
-
-	
 	ADD R6,R6,#-1
 	STR R0,R6,#0
 	LDR R0,R6,#0
@@ -778,7 +797,7 @@ INBUF2	.FILL x0000
 ;---------------------------------------------------------------------------
 
 GLOBDATA
-	.BLKW #0
+	.BLKW #20
 
 ;---------------------------------------------------------------------------
 ; stack allocation

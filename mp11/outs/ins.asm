@@ -55,40 +55,58 @@ MAIN	ADD	R6,R6,#-3
 ; STUDENT CODE STARTS HERE (after the symbol table)
 ;---------------------------------------------------------------------------
 
+;                    a           global          offset=+0
 	LD R0,LBL2
 	ADD R6,R6,#-1
 	STR R0,R6,#0
 	BRnzp LBL3
 LBL2
-	.FILL #40
+	.FILL #0
 LBL3
-	LD R0,LBL4
-	ADD R6,R6,#-1
-	STR R0,R6,#0
-	BRnzp LBL5
-LBL4
-	.FILL #8
-LBL5
+	ADD R0,R4,#0
 	LDR R1,R6,#0
+	STR R1,R0,#0
 	ADD R6,R6,#1
-	LDR R0,R6,#0
+	ADD R0,R4,#0
+	LDR R1,R0,#0
+	ADD R2,R1,#1
+	STR R2,R0,#0
+	ADD R6,R6,#-1
+	STR R1,R6,#0
 	ADD R6,R6,#1
-	NOT R1,R1
+	ADD R0,R4,#0
+	LDR R1,R0,#0
+	ADD R2,R1,#-1
+	STR R2,R0,#0
+	ADD R6,R6,#-1
+	STR R1,R6,#0
+	ADD R6,R6,#1
+	ADD R0,R4,#0
+	LDR R1,R0,#0
 	ADD R1,R1,#1
-	ADD R0,R0,R1
-
-	
+	STR R1,R0,#0
+	ADD R6,R6,#-1
+	STR R1,R6,#0
+	ADD R6,R6,#1
+	ADD R0,R4,#0
+	LDR R1,R0,#0
+	ADD R1,R1,#-1
+	STR R1,R0,#0
+	ADD R6,R6,#-1
+	STR R1,R6,#0
+	ADD R6,R6,#1
+	LDR R0,R4,#0
 	ADD R6,R6,#-1
 	STR R0,R6,#0
 	LDR R0,R6,#0
 	ADD R6,R6,#1
 	STR R0,R5,#3
-	;  LBL7
-	LD R3,LBL6
+	;  LBL5
+	LD R3,LBL4
 	JMP R3
-LBL6
+LBL4
 	.FILL LBL1
-LBL7
+LBL5
 LBL1
 
 ;---------------------------------------------------------------------------
@@ -778,7 +796,7 @@ INBUF2	.FILL x0000
 ;---------------------------------------------------------------------------
 
 GLOBDATA
-	.BLKW #0
+	.BLKW #1
 
 ;---------------------------------------------------------------------------
 ; stack allocation

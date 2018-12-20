@@ -60,35 +60,43 @@ MAIN	ADD	R6,R6,#-3
 	STR R0,R6,#0
 	BRnzp LBL3
 LBL2
-	.FILL #40
+	.FILL #3
 LBL3
 	LD R0,LBL4
 	ADD R6,R6,#-1
 	STR R0,R6,#0
 	BRnzp LBL5
 LBL4
-	.FILL #8
+	.FILL #4
 LBL5
-	LDR R1,R6,#0
-	ADD R6,R6,#1
-	LDR R0,R6,#0
-	ADD R6,R6,#1
-	NOT R1,R1
-	ADD R1,R1,#1
-	ADD R0,R0,R1
 
-	
+
+	LDR R1,R6,#0	; Load the first
+	ADD R6,R6,#1
+
+
+	LDR R0,R6,#0	; Load the second
+	ADD R6,R6,#1
+
+
+	LD R3,LBL6
+	JSRR R3
+	BRnzp LBL7
+LBL6
+	.FILL MULTIPLY
+
+LBL7
 	ADD R6,R6,#-1
 	STR R0,R6,#0
 	LDR R0,R6,#0
 	ADD R6,R6,#1
 	STR R0,R5,#3
-	;  LBL7
-	LD R3,LBL6
+	;  LBL9
+	LD R3,LBL8
 	JMP R3
-LBL6
+LBL8
 	.FILL LBL1
-LBL7
+LBL9
 LBL1
 
 ;---------------------------------------------------------------------------

@@ -55,40 +55,135 @@ MAIN	ADD	R6,R6,#-3
 ; STUDENT CODE STARTS HERE (after the symbol table)
 ;---------------------------------------------------------------------------
 
-	LD R0,LBL2
+	LD R0,LBL5
 	ADD R6,R6,#-1
 	STR R0,R6,#0
-	BRnzp LBL3
-LBL2
-	.FILL #40
-LBL3
-	LD R0,LBL4
-	ADD R6,R6,#-1
-	STR R0,R6,#0
-	BRnzp LBL5
-LBL4
-	.FILL #8
+	BRnzp LBL6
 LBL5
-	LDR R1,R6,#0
-	ADD R6,R6,#1
+	.FILL #1
+LBL6
 	LDR R0,R6,#0
 	ADD R6,R6,#1
-	NOT R1,R1
-	ADD R1,R1,#1
-	ADD R0,R0,R1
+	ADD R0,R0,#0
+	BRnp LBL8
+	LD R3,LBL7
+	JMP R3
+LBL7
+	.FILL LBL3
+LBL8
 
-	
+	LD R0,LBL9
 	ADD R6,R6,#-1
 	STR R0,R6,#0
+	BRnzp LBL10
+LBL9
+	.FILL #3
+
+
+LBL10
+	LDR R0,R6,#0
+	ADD R6,R6,#1
+	ADD R0,R0,#0
+	BRz LBL3
+	AND R2,R2,#0
+	ADD R2,R2,#1
+	BRnzp LBL4
+LBL3
+	AND R2,R2,#0
+
+
+LBL4
+	ADD R6,R6,#-1
+	STR R2,R6,#0
+
+// above generate
+
+
+	LDR R0,R6,#0
+	ADD R6,R6,#1
+	ADD R0,R0,#0
+	BRnp LBL12
+	LD R3,LBL11
+	JMP R3
+LBL11
+	.FILL LBL2
+LBL12
+
+
+
+	LEA R0,LBL13
+	ADD R6,R6,#-1
+	STR R0,R6,#0
+	BRnzp LBL14
+LBL13
+	.STRINGZ "if"
+LBL14
+	LD R0,LBL15
+	JSRR R0
+	BRnzp LBL16
+LBL15
+	.FILL PRINTF
+
+
+
+LBL16
+	LDR R0,R6,#0
+	ADD R6,R6,#1
+	ADD R6,R6,#1
+	ADD R6,R6,#-1
+	STR R0,R6,#0
+	ADD R6,R6,#1
+	;  LBL19
+
+
+	LD R3,LBL18
+	JMP R3
+LBL18
+	.FILL LBL17
+LBL19
+
+
+LBL2
+	LEA R0,LBL20
+	ADD R6,R6,#-1
+	STR R0,R6,#0
+	BRnzp LBL21
+LBL20
+	.STRINGZ "else"
+
+LBL21
+	LD R0,LBL22
+	JSRR R0
+	BRnzp LBL23
+LBL22
+	.FILL PRINTF
+
+
+
+LBL23
+	LDR R0,R6,#0
+	ADD R6,R6,#1
+	ADD R6,R6,#1
+	ADD R6,R6,#-1
+	STR R0,R6,#0
+	ADD R6,R6,#1
+LBL17
+	LD R0,LBL24
+	ADD R6,R6,#-1
+	STR R0,R6,#0
+	BRnzp LBL25
+LBL24
+	.FILL #0
+LBL25
 	LDR R0,R6,#0
 	ADD R6,R6,#1
 	STR R0,R5,#3
-	;  LBL7
-	LD R3,LBL6
+	;  LBL27
+	LD R3,LBL26
 	JMP R3
-LBL6
+LBL26
 	.FILL LBL1
-LBL7
+LBL27
 LBL1
 
 ;---------------------------------------------------------------------------

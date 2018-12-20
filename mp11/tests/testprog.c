@@ -34,6 +34,8 @@ main ()
 	    }
 	    printf ("\n");
 	}
+
+
 	for (choice_ok = 0; 0 == choice_ok; ) {
 	    printf ("From which pile will you take sticks? ");
 	    if (1 != scanf ("%d", &pnum) || 1 > pnum || 3 < pnum ||

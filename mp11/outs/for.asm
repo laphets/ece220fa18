@@ -40,6 +40,7 @@ MAIN	ADD	R6,R6,#-3
 ; local variable space allocation
 ;---------------------------------------------------------------------------
 
+	ADD R6,R6,#-2
 
 ;---------------------------------------------------------------------------
 ; R0...R3 are callee-saved
@@ -55,40 +56,100 @@ MAIN	ADD	R6,R6,#-3
 ; STUDENT CODE STARTS HERE (after the symbol table)
 ;---------------------------------------------------------------------------
 
+;                    i           local to main   offset=+0
+;                    j           local to main   offset=-1
 	LD R0,LBL2
 	ADD R6,R6,#-1
 	STR R0,R6,#0
 	BRnzp LBL3
 LBL2
-	.FILL #40
+	.FILL #0
 LBL3
-	LD R0,LBL4
+	ADD R0,R5,#-1
+	LDR R1,R6,#0
+	STR R1,R0,#0
+	ADD R6,R6,#1
+	LD R0,LBL6
 	ADD R6,R6,#-1
 	STR R0,R6,#0
-	BRnzp LBL5
+	BRnzp LBL7
+LBL6
+	.FILL #0
+LBL7
+	ADD R0,R5,#0
+	LDR R1,R6,#0
+	STR R1,R0,#0
+	ADD R6,R6,#1
 LBL4
-	.FILL #8
-LBL5
+	LDR R0,R5,#0
+	ADD R6,R6,#-1
+	STR R0,R6,#0
+	LD R0,LBL9
+	ADD R6,R6,#-1
+	STR R0,R6,#0
+	BRnzp LBL10
+LBL9
+	.FILL #10
+LBL10
 	LDR R1,R6,#0
 	ADD R6,R6,#1
 	LDR R0,R6,#0
 	ADD R6,R6,#1
+	AND R2,R2,#0
 	NOT R1,R1
 	ADD R1,R1,#1
 	ADD R0,R0,R1
-
-	
+	BRzp LBL8
+	ADD R2,R2,#1
+LBL8
+	ADD R6,R6,#-1
+	STR R2,R6,#0
+	LDR R0,R6,#0
+	ADD R6,R6,#1
+	ADD R0,R0,#0
+	BRnp LBL12
+	LD R3,LBL11
+	JMP R3
+LBL11
+	.FILL LBL5
+LBL12
+	ADD R0,R5,#-1
+	LDR R1,R0,#0
+	ADD R2,R1,#1
+	STR R2,R0,#0
+	ADD R6,R6,#-1
+	STR R1,R6,#0
+	ADD R6,R6,#1
+	ADD R0,R5,#0
+	LDR R1,R0,#0
+	ADD R2,R1,#1
+	STR R2,R0,#0
+	ADD R6,R6,#-1
+	STR R1,R6,#0
+	ADD R6,R6,#1
+	;  LBL14
+	LD R3,LBL13
+	JMP R3
+LBL13
+	.FILL LBL4
+LBL14
+LBL5
+	LD R0,LBL15
 	ADD R6,R6,#-1
 	STR R0,R6,#0
+	BRnzp LBL16
+LBL15
+	.FILL #0
+LBL16
 	LDR R0,R6,#0
 	ADD R6,R6,#1
 	STR R0,R5,#3
-	;  LBL7
-	LD R3,LBL6
+	;  LBL18
+	LD R3,LBL17
 	JMP R3
-LBL6
+LBL17
 	.FILL LBL1
-LBL7
+LBL18
 LBL1
 
 ;---------------------------------------------------------------------------

@@ -54,7 +54,8 @@ extern void MP11_generate_code (ast220_t* prog);
 int
 main ()
 {
-    freopen("./tests/c.c", "r", stdin);
+    freopen("./tests/testprog.c", "r", stdin);
+    freopen("./my/testprog.asm", "w", stdout);
     ast220_t* program;
 
     if (NULL == (program = ece220_parse_program ())) {

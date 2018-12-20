@@ -55,40 +55,43 @@ MAIN	ADD	R6,R6,#-3
 ; STUDENT CODE STARTS HERE (after the symbol table)
 ;---------------------------------------------------------------------------
 
-	LD R0,LBL2
+	LEA R0,LBL2
 	ADD R6,R6,#-1
 	STR R0,R6,#0
 	BRnzp LBL3
 LBL2
-	.FILL #40
+	.STRINGZ "Helloworld\n"
 LBL3
 	LD R0,LBL4
-	ADD R6,R6,#-1
-	STR R0,R6,#0
+	JSRR R0
 	BRnzp LBL5
 LBL4
-	.FILL #8
+	.FILL PRINTF
 LBL5
-	LDR R1,R6,#0
+	LDR R0,R6,#0	; load return value
+	ADD R6,R6,#1	; pop return value
+	ADD R6,R6,#1	; pop arguments
+	ADD R6,R6,#-1	; push the return value back into stack
+	STR R0,R6,#0
 	ADD R6,R6,#1
-	LDR R0,R6,#0
-	ADD R6,R6,#1
-	NOT R1,R1
-	ADD R1,R1,#1
-	ADD R0,R0,R1
 
-	
+
+	LD R0,LBL6
 	ADD R6,R6,#-1
 	STR R0,R6,#0
+	BRnzp LBL7
+LBL6
+	.FILL #0
+LBL7
 	LDR R0,R6,#0
 	ADD R6,R6,#1
 	STR R0,R5,#3
-	;  LBL7
-	LD R3,LBL6
+	;  LBL9
+	LD R3,LBL8
 	JMP R3
-LBL6
+LBL8
 	.FILL LBL1
-LBL7
+LBL9
 LBL1
 
 ;---------------------------------------------------------------------------
