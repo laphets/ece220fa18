@@ -32,8 +32,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mp11.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="1150" column="18" selection-start-line="1150" selection-start-column="18" selection-end-line="1150" selection-end-column="18" />
+            <state relative-caret-position="217">
+              <caret line="1109" column="20" lean-forward="true" selection-start-line="1109" selection-start-column="20" selection-end-line="1109" selection-end-column="20" />
               <folding>
                 <element signature="e#1538#1556#0" expanded="true" />
               </folding>
@@ -274,12 +274,12 @@
       <workItem from="1544965087576" duration="16270000" />
       <workItem from="1545232058095" duration="8491000" />
       <workItem from="1545246419018" duration="5280000" />
-      <workItem from="1545287987819" duration="2134000" />
+      <workItem from="1545287987819" duration="2335000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38332000" />
+    <option name="totallyTimeSpent" value="38533000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -292,21 +292,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.61612284" visible="true" weight="0.2081545" />
-      <window_info id="Structure" order="1" sideWeight="0.38387716" side_tool="true" visible="true" weight="0.2081545" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6161765" visible="true" weight="0.2081545" />
+      <window_info id="Structure" order="1" sideWeight="0.38382354" side_tool="true" visible="true" weight="0.2081545" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.35995087" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.35995087" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3992629" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32923833" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.32923833" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.16461916" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.16461916" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="CMake" order="12" weight="0.32923833" />
@@ -590,8 +589,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mp11.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="1150" column="18" selection-start-line="1150" selection-start-column="18" selection-end-line="1150" selection-end-column="18" />
+        <state relative-caret-position="217">
+          <caret line="1109" column="20" lean-forward="true" selection-start-line="1109" selection-start-column="20" selection-end-line="1109" selection-end-column="20" />
           <folding>
             <element signature="e#1538#1556#0" expanded="true" />
           </folding>
