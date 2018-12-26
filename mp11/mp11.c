@@ -36,6 +36,11 @@
  */
 
 
+/**
+ * This file is the main source file for mp11, which provides
+ * routines for lc3 code generator, including both expression and statement.
+ */
+
 #include <stdio.h>
 
 #include "ece220_label.h"
@@ -124,10 +129,10 @@ static ece220_label_t* stack_tear_label;
 void 
 MP11_generate_code (ast220_t* prog)
 {
-    // Generate stack_tear_label
+    /* Generate stack_tear_label */
     stack_tear_label = label_create();
-
-    for(ast220_t* ptr = prog; ptr != NULL; ptr = ptr->next) {
+    ast220_t* ptr = NULL;
+    for(ptr = prog; ptr != NULL; ptr = ptr->next) {
         gen_statement(ptr);
     }
 
@@ -215,11 +220,12 @@ gen_for_statement (ast220_t* ast)
     printf("\tADD R0,R0,#0\n");
     gen_long_branch(BR_Z, end_label);
 
-    // Loop body
-    for(ast220_t* cur = ast->middle; cur != NULL; cur = cur->next)
+    /* Loop body */
+    ast220_t* cur = NULL;
+    for(cur = ast->middle; cur != NULL; cur = cur->next)
         gen_statement(cur);
 
-    // Update
+    /* Update */
     if(ast->right != NULL)
         gen_statement(ast->right);
 
@@ -260,13 +266,14 @@ gen_if_statement (ast220_t* ast)
     printf("\t.FILL %s\n", label_value(false_label));
     printf("%s\n", label_value(false_label_skip));
 
-    // True statement here
+    /* True statement here */
     printf("%s\n", label_value(true_label));
-    for(ast220_t* cur = ast->left; cur != NULL; cur = cur->next) {
+    ast220_t* cur = NULL;
+    for(cur = ast->left; cur != NULL; cur = cur->next) {
         gen_statement(cur);
     }
 
-    // TODO: Gen long branch
+
     ece220_label_t* end_label_store = label_create();
     ece220_label_t* skip_label = label_create();
     printf("\tLD R3,%s\n", label_value(end_label_store));
@@ -276,13 +283,14 @@ gen_if_statement (ast220_t* ast)
     printf("\t.FILL %s\n", label_value(end_label));
     printf("%s\n", label_value(skip_label));
 
-    // False statement here
+    /* False statement here */
     printf("%s\n", label_value(false_label));
-    for(ast220_t* cur = ast->right; cur != NULL; cur = cur->next) {
-        gen_statement(cur);
+    ast220_t* cur1 = NULL;
+    for(cur1 = ast->right; cur1 != NULL; cur1 = cur1->next) {
+        gen_statement(cur1);
     }
 
-    // End label here
+    /* End label here */
     printf("%s\n", label_value(end_label));
 }
 
@@ -297,29 +305,29 @@ gen_if_statement (ast220_t* ast)
 static void 
 gen_return_statement (ast220_t* ast)
 {
-    // Generate one label for the end redirect
+    /* Generate one label for the end redirect */
     ece220_label_t* end_label = label_create();
-    // Generate to skip fill
+    /* Generate to skip fill */
     ece220_label_t* skip_label = label_create();
 
-    // First generate expression for it's left node
+    /* First generate expression for it's left node */
     gen_expression(ast->left);
 
-    // Pop the local varibale from stack
+    /* Pop the local varibale from stack */
     printf("\tLDR R0,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
 
-    // Store it into R5+3
+    /* Store it into R5+3 */
     printf("\tSTR R0,R5,#3\n");
 
-    // JMP to the end
+    /* JMP to the end */
     printf("\tLD R3,%s\n", label_value(end_label));
     printf("\tJMP R3\n");
 
-    // Create for the end addr
+    /* Create for the end addr */
     printf("%s\n", label_value(end_label));
     printf("\t.FILL %s\n", label_value(stack_tear_label));
-    // Generate skip label after fill
+    /* Generate skip label after fill */
     printf("%s\n", label_value(skip_label));
 }
 
@@ -335,10 +343,9 @@ gen_return_statement (ast220_t* ast)
 static void 
 gen_pop_stack (ast220_t* ast)
 {
-    //TODO: not quite sure here
-    // Generate exporession
+    /* Generate exporession */
     gen_expression(ast->left);
-    // Pop the stack
+    /* Pop the stack */
     printf("\tADD R6,R6,#1\n");
 }
 
@@ -416,27 +423,27 @@ gen_push_int (ast220_t* ast)
     ece220_label_t* int_label = label_create();
     ece220_label_t* next_label = label_create();
 
-    // Load the value to R0
-    // LD R0,int_label
+    /* Load the value to R0 */
+    /* LD R0,int_label */
     printf("\tLD R0,%s\n", label_value(int_label));
 
-    // Push it into the stack
-    // First decrease stack ptr(R6--)
-    // ADD R6,R6,#-1
+    /* Push it into the stack */
+    /* First decrease stack ptr(R6--) */
+    /* ADD R6,R6,#-1 */
     printf("\tADD R6,R6,#-1\n");
 
-    // Then store it into the stack
-    // STR R3, R6, #0 where R0 is data stored
+    /* Then store it into the stack */
+    /* STR R3, R6, #0 where R0 is data stored */
     printf("\tSTR R0,R6,#0\n");
 
-    // JMP to skip .FILL
+    /* JMP to skip .FILL */
     printf("\tBRnzp %s\n", label_value(next_label));
 
-    // Generate the label with the int value
+    /* Generate the label with the int value */
     printf ("%s\n", label_value(int_label));
     printf ("\t.FILL #%d\n", ast->value);
 
-    // Generate the next label to skip fill, otherwise, it may occur some crash
+    /* Generate the next label to skip fill, otherwise, it may occur some crash */
     printf("%s\n", label_value(next_label));
 }
 
@@ -455,21 +462,21 @@ gen_push_str (ast220_t* ast)
     ece220_label_t* string_label = label_create();
     ece220_label_t* next_label = label_create();
 
-    // Load the address of the first letter
+    /* Load the address of the first letter */
     printf("\tLEA R0,%s\n", label_value(string_label));
 
-    // Push it into the stack
+    /* Push it into the stack */
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R0,R6,#0\n");
 
-    // Skip string data
+    /* Skip string data */
     printf("\tBRnzp %s\n", label_value(next_label));
 
-    // Create string data
+    /* Create string data */
     printf("%s\n", label_value(string_label));
     printf("\t.STRINGZ %s\n", ast->name);
 
-    // Print skip label
+    /* Print skip label */
     printf("%s\n", label_value(next_label));
 }
 
@@ -488,12 +495,12 @@ gen_push_variable (ast220_t* ast)
     symtab_entry_t* sym_var = symtab_lookup(ast->name);
 
     if(ast->left != NULL) {
-        // Generate array expression
+        /* Generate array expression */
         gen_expression(ast->left);
-        // Load index
+        /* Load index */
         printf("\tLDR R1,R6,#0\n");
         printf("\tADD R6,R6,#1\n");
-        // Check scope
+        /* Check scope */
         if(sym_var->is_global) {
             printf("\tADD R0,R4,#0\n");
         } else {
@@ -504,15 +511,15 @@ gen_push_variable (ast220_t* ast)
         printf("\tLDR R0,R1,#0\n");
     } else {
         if(sym_var->is_global) {
-            // Is global
-            // Since we do not need to consider overflow
+            /* Is global */
+            /* Since we do not need to consider overflow */
             printf("\tLDR R0,R4,#%d\n", sym_var->offset);
         } else {
-            // Local variable
+            /* Local variable */
             printf("\tLDR R0,R5,#%d\n", sym_var->offset);
         }
     }
-    // Push it into the stack
+    /* Push it into the stack */
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R0,R6,#0\n");
 }
@@ -530,13 +537,16 @@ gen_push_variable (ast220_t* ast)
 static void 
 gen_func_call (ast220_t* ast)
 {
+    if(ast->fnum >= NUM_AST220_BUILTIN_FUNCS) {
+        return;
+    }
     ece220_label_t* target_fun_label = label_create();
     ece220_label_t* skip_label = label_create();
     int32_t argu_cnt = 0;
-    char* func_map[NUM_AST220_BUILTIN_FUNCS] = {"PRINTF", "RAND", "SCANF", "SRAND"};
-    // First try to push the argument
-    // TODO: May occur some problem here  You may consider the order
-    for(ast220_t* arg = ast->left; arg != NULL; arg = arg->next) {
+    static const char* const func_map[NUM_AST220_BUILTIN_FUNCS] = {"PRINTF", "RAND", "SCANF", "SRAND"};
+    /* First try to push the argument */
+    ast220_t* arg = NULL;
+    for(arg = ast->left; arg != NULL; arg = arg->next) {
         argu_cnt++;
         gen_expression(arg);
     }
@@ -544,7 +554,7 @@ gen_func_call (ast220_t* ast)
     printf("\tLD R0,%s\n", label_value(target_fun_label));
     printf("\tJSRR R0\n");
 
-    // Skip fill
+    /* Skip fill */
     printf("\tBRnzp %s\n", label_value(skip_label));
 
     printf("%s\n", label_value(target_fun_label));
@@ -552,20 +562,19 @@ gen_func_call (ast220_t* ast)
 
     printf("%s\n", label_value(skip_label));
 
-    // Then try to get the return value
-    // LDR R0,R6,#0
+    /* Then try to get the return value */
+    /* LDR R0,R6,#0 */
     printf("\tLDR R0,R6,#0\n");
 
-    // Pop return value
-    // ADD R6,R6,#1
+    /* Pop return value */
+    /* ADD R6,R6,#1 */
     printf("\tADD R6,R6,#1\n");
 
-    // Pop arguments
-    // ADD R6,R6,#1
-    // TODO: Check whether here wo can inline the length
+    /* Pop arguments */
+    /* ADD R6,R6,#1 */
     printf("\tADD R6,R6,#%d\n", argu_cnt);
 
-    // Push the return value again into the stack
+    /* Push the return value again into the stack */
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R0,R6,#0\n");
 }
@@ -582,7 +591,7 @@ gen_func_call (ast220_t* ast)
 static void 
 gen_get_address (ast220_t* ast)
 {
-    // Array
+    /* Array */
     if(ast->left->left != NULL) {
         gen_expression(ast->left->left);
         printf("\tLDR R1,R6,#0\n");
@@ -591,11 +600,11 @@ gen_get_address (ast220_t* ast)
 
     symtab_entry_t* sym_var = symtab_lookup(ast->left->name);
     if(sym_var->is_global) {
-        // Is global
-        // Since we do not need to consider overflow
+        /* Is global */
+        /* Since we do not need to consider overflow */
         printf("\tADD R0,R4,#%d\n", sym_var->offset);
     } else {
-        // Local variable
+        /* Local variable */
         printf("\tADD R0,R5,#%d\n", sym_var->offset);
     }
 
@@ -622,24 +631,24 @@ gen_get_address (ast220_t* ast)
 static void 
 gen_op_assign (ast220_t* ast)
 {
-    // Now the expression is on the top of the stack
+    /* Now the expression is on the top of the stack */
     gen_expression(ast->right);
 
     symtab_entry_t* sym_var = symtab_lookup(ast->left->name);
 
     if(sym_var->array_len) {
-        // If it's array
+        /* If it's array */
         gen_expression(ast->left->left);
         printf("\tLDR R1,R6,#0\n");
         printf("\tADD R6,R6,#1\n");
     }
 
     if(sym_var->is_global) {
-        // Is global
-        // Since we do not need to consider overflow
+        /* Is global */
+        /* Since we do not need to consider overflow */
         printf("\tADD R0,R4,#%d\n", sym_var->offset);
     } else {
-        // Local variable
+        /* Local variable */
         printf("\tADD R0,R5,#%d\n", sym_var->offset);
     }
 
@@ -647,10 +656,10 @@ gen_op_assign (ast220_t* ast)
         printf("\tADD R0,R1,R0\n");
     }
 
-    // Now the target variable location is on the R0
-    // Load the top element of the stack
+    /* Now the target variable location is on the R0 */
+    /* Load the top element of the stack */
     printf("\tLDR R1,R6,#0\n");
-    // Store it to R0
+    /* Store it to R0 */
     printf("\tSTR R1,R0,#0\n");
 }
 
@@ -667,22 +676,21 @@ gen_op_assign (ast220_t* ast)
 static void 
 gen_op_pre_incr (ast220_t* ast)
 {
-    // Push the variable on the stack
+    /* Push the variable on the stack */
     gen_expression(ast->left);
     printf("\tLDR R0,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
 
-    // Incr
     printf("\tADD R0,R0,#1\n");
 
     printf("\tADD R6,R6,#-1\n");
-    printf("\tSTR R0,R6,#0\n"); // store var+1
+    printf("\tSTR R0,R6,#0\n");
 
 
     symtab_entry_t* sym_var = symtab_lookup(ast->left->name);
 
     if(sym_var->array_len) {
-        // If it's array
+        /* If it's array */
         gen_expression(ast->left->left);
         printf("\tLDR R1,R6,#0\n");
         printf("\tADD R6,R6,#1\n");
@@ -690,11 +698,11 @@ gen_op_pre_incr (ast220_t* ast)
     }
 
     if(sym_var->is_global) {
-        // Is global
-        // Since we do not need to consider overflow
+        /* Is global */
+        /* Since we do not need to consider overflow */
         printf("\tADD R0,R4,#%d\n", sym_var->offset);
     } else {
-        // Local variable
+        /* Local variable */
         printf("\tADD R0,R5,#%d\n", sym_var->offset);
     }
 
@@ -702,10 +710,10 @@ gen_op_pre_incr (ast220_t* ast)
         printf("\tADD R0,R1,R0\n");
     }
 
-    // Now the target variable location is on the R0
-    // Load the top element of the stack
+    /* Now the target variable location is on the R0 */
+    /* Load the top element of the stack */
     printf("\tLDR R1,R6,#0\n");
-    // Store it to R0
+    /* Store it to R0 */
     printf("\tSTR R1,R0,#0\n");
 }
 
@@ -722,22 +730,21 @@ gen_op_pre_incr (ast220_t* ast)
 static void 
 gen_op_pre_decr (ast220_t* ast)
 {
-    // Push the variable on the stack
+    /* Push the variable on the stack */
     gen_expression(ast->left);
     printf("\tLDR R0,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
 
-    // Decr
     printf("\tADD R0,R0,#-1\n");
 
     printf("\tADD R6,R6,#-1\n");
-    printf("\tSTR R0,R6,#0\n"); // store var+1
+    printf("\tSTR R0,R6,#0\n");
 
 
     symtab_entry_t* sym_var = symtab_lookup(ast->left->name);
 
     if(sym_var->array_len) {
-        // If it's array
+        /* If it's array */
         gen_expression(ast->left->left);
         printf("\tLDR R1,R6,#0\n");
         printf("\tADD R6,R6,#1\n");
@@ -745,11 +752,11 @@ gen_op_pre_decr (ast220_t* ast)
     }
 
     if(sym_var->is_global) {
-        // Is global
-        // Since we do not need to consider overflow
+        /* Is global */
+        /* Since we do not need to consider overflow */
         printf("\tADD R0,R4,#%d\n", sym_var->offset);
     } else {
-        // Local variable
+        /* Local variable */
         printf("\tADD R0,R5,#%d\n", sym_var->offset);
     }
 
@@ -757,10 +764,10 @@ gen_op_pre_decr (ast220_t* ast)
         printf("\tADD R0,R1,R0\n");
     }
 
-    // Now the target variable location is on the R0
-    // Load the top element of the stack
+    /* Now the target variable location is on the R0 */
+    /* Load the top element of the stack */
     printf("\tLDR R1,R6,#0\n");
-    // Store it to R0
+    /* Store it to R0 */
     printf("\tSTR R1,R0,#0\n");
 }
 
@@ -777,24 +784,24 @@ gen_op_pre_decr (ast220_t* ast)
 static void 
 gen_op_post_incr (ast220_t* ast)
 {
-    // Push the variable on the stack
+    /* Push the variable on the stack */
     gen_expression(ast->left);
 
     symtab_entry_t* sym_var = symtab_lookup(ast->left->name);
 
     if(sym_var->array_len) {
-        // If it's array
+        /* If it's array */
         gen_expression(ast->left->left);
         printf("\tLDR R1,R6,#0\n");
         printf("\tADD R6,R6,#1\n");
     }
 
     if(sym_var->is_global) {
-        // Is global
-        // Since we do not need to consider overflow
+        /* Is global */
+        /* Since we do not need to consider overflow */
         printf("\tADD R0,R4,#%d\n", sym_var->offset);
     } else {
-        // Local variable
+        /* Local variable */
         printf("\tADD R0,R5,#%d\n", sym_var->offset);
     }
 
@@ -802,12 +809,12 @@ gen_op_post_incr (ast220_t* ast)
         printf("\tADD R0,R1,R0\n");
     }
 
-    // Now the target variable location is on the R0
-    // Load the top element of the stack
+    /* Now the target variable location is on the R0 */
+    /* Load the top element of the stack */
     printf("\tLDR R1,R6,#0\n");
-    // Incr
+    /* Incr */
     printf("\tADD R1,R1,#1\n");
-    // Store it to R0
+    /* Store it to R0 */
     printf("\tSTR R1,R0,#0\n");
 }
 
@@ -824,24 +831,24 @@ gen_op_post_incr (ast220_t* ast)
 static void 
 gen_op_post_decr (ast220_t* ast)
 {
-    // Push the variable on the stack
+    /* Push the variable on the stack */
     gen_expression(ast->left);
 
     symtab_entry_t* sym_var = symtab_lookup(ast->left->name);
 
     if(sym_var->array_len) {
-        // If it's array
+        /* If it's array */
         gen_expression(ast->left->left);
         printf("\tLDR R1,R6,#0\n");
         printf("\tADD R6,R6,#1\n");
     }
 
     if(sym_var->is_global) {
-        // Is global
-        // Since we do not need to consider overflow
+        /* Is global */
+        /* Since we do not need to consider overflow */
         printf("\tADD R0,R4,#%d\n", sym_var->offset);
     } else {
-        // Local variable
+        /* Local variable */
         printf("\tADD R0,R5,#%d\n", sym_var->offset);
     }
 
@@ -849,12 +856,12 @@ gen_op_post_decr (ast220_t* ast)
         printf("\tADD R0,R1,R0\n");
     }
 
-    // Now the target variable location is on the R0
-    // Load the top element of the stack
+    /* Now the target variable location is on the R0 */
+    /* Load the top element of the stack */
     printf("\tLDR R1,R6,#0\n");
-    // Decr
+
     printf("\tADD R1,R1,#-1\n");
-    // Store it to R0
+    /* Store it to R0 */
     printf("\tSTR R1,R0,#0\n");
 }
 
@@ -870,23 +877,23 @@ gen_op_post_decr (ast220_t* ast)
 static void 
 gen_op_add (ast220_t* ast)
 {
-    // Left for the first operand
-    // Right for the second operand
+    /* Left for the first operand */
+    /* Right for the second operand */
     gen_expression(ast->left);
     gen_expression(ast->right);
 
-    // Get the first operand to R0
+    /* Get the first operand to R0 */
     printf("\tLDR R1,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
 
-    // Get the second operand to R1
+    /* Get the second operand to R1 */
     printf("\tLDR R0,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
 
-    // Solve for the solution to R0
+    /* Solve for the solution to R0 */
     printf("\tADD R0,R0,R1\n");
 
-    // Push back to the stack
+    /* Push back to the stack */
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R0,R6,#0\n");
 }
@@ -903,27 +910,27 @@ gen_op_add (ast220_t* ast)
 static void 
 gen_op_sub (ast220_t* ast)
 {
-    // Left for the first operand
-    // Right for the second operand
+    /* Left for the first operand */
+    /* Right for the second operand */
     gen_expression(ast->left);
     gen_expression(ast->right);
 
-    // Get the second operand to R0
+    /* Get the second operand to R0 */
     printf("\tLDR R0,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
 
-    // Get the first operand to R1
+    /* Get the first operand to R1 */
     printf("\tLDR R1,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
 
-    // Get the minus sign of R0 (the first operand)
+    /* Get the minus sign of R0 (the first operand) */
     printf("\tNOT R0,R0\n");
     printf("\tADD R0,R0,#1\n");
 
-    // Store the sum to R0
+    /* Store the sum to R0 */
     printf("\tADD R0,R0,R1\n");
 
-    // Push back to stack
+    /* Push back to stack */
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R0,R6,#0\n");
 }
@@ -947,26 +954,26 @@ gen_op_mult (ast220_t* ast)
     gen_expression(ast->left);
     gen_expression(ast->right);
 
-    // Load the second
+    /* Load the second */
     printf("\tLDR R1,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
-    // Load the first
+    /* Load the first */
     printf("\tLDR R0,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
 
-    // JMP to function
+    /* JMP to function */
     printf("\tLD R3,%s\n", label_value(target_fun_label));
     printf("\tJSRR R3\n");
 
-    // Skip fill
+    /* Skip fill */
     printf("\tBRnzp %s\n", label_value(skip_label));
-    // Fill target function label
+    /* Fill target function label */
     printf("%s\n", label_value(target_fun_label));
     printf("\t.FILL MULTIPLY\n");
 
     printf("%s\n", label_value(skip_label));
 
-    // Store res(R0) to the stack
+    /* Store res(R0) to the stack */
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R0,R6,#0\n");
 }
@@ -990,26 +997,26 @@ gen_op_div (ast220_t* ast)
     gen_expression(ast->left);
     gen_expression(ast->right);
 
-    // Load the second
+    /* Load the second */
     printf("\tLDR R1,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
-    // Load the first(R0/R1)
+    /* Load the first(R0/R1) */
     printf("\tLDR R0,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
 
-    // JMP to function
+    /* JMP to function */
     printf("\tLD R3,%s\n", label_value(target_fun_label));
     printf("\tJSRR R3\n");
 
-    // Skip fill
+    /* Skip fill */
     printf("\tBRnzp %s\n", label_value(skip_label));
-    // Fill target function label
+    /* Fill target function label */
     printf("%s\n", label_value(target_fun_label));
     printf("\t.FILL DIVIDE\n");
 
     printf("%s\n", label_value(skip_label));
 
-    // Store res(R0) to the stack
+    /* Store res(R0) to the stack */
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R0,R6,#0\n");
 }
@@ -1031,29 +1038,29 @@ gen_op_mod (ast220_t* ast)
     ece220_label_t* target_fun_label = label_create();
     ece220_label_t* skip_label = label_create();
 
-    gen_expression(ast->left);  // R0
-    gen_expression(ast->right); // R1
+    gen_expression(ast->left);
+    gen_expression(ast->right);
 
-    // Load the second
+    /* Load the second */
     printf("\tLDR R1,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
-    // Load the first
+    /* Load the first */
     printf("\tLDR R0,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
 
-    // JMP to function
+    /* JMP to function */
     printf("\tLD R3,%s\n", label_value(target_fun_label));
     printf("\tJSRR R3\n");
 
-    // Skip fill
+    /* Skip fill */
     printf("\tBRnzp %s\n", label_value(skip_label));
-    // Fill target function label
+    /* Fill target function label */
     printf("%s\n", label_value(target_fun_label));
     printf("\t.FILL MODULUS\n");
 
     printf("%s\n", label_value(skip_label));
 
-    // Store res(R0) to the stack
+    /* Store res(R0) to the stack */
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R0,R6,#0\n");
 }
@@ -1070,18 +1077,18 @@ gen_op_mod (ast220_t* ast)
 static void 
 gen_op_negate (ast220_t* ast)
 {
-    // Create local variable
+    /* Create local variable */
     gen_push_int(ast->left);
 
-    // First take the value off the stack
-    // Load it into R0
+    /* First take the value off the stack */
+    /* Load it into R0 */
     printf("\tLDR R0,R6,#0\n");
     printf("\tADD R6,R6,#1\n");
 
-    // Negate R0
+    /* Negate R0 */
     printf("\tNOT R0,R0\n");
 
-    // Push it into the stack
+    /* Push it into the stack */
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R0,R6,#0\n");
 }
@@ -1107,7 +1114,7 @@ gen_op_log_not (ast220_t* ast)
     ece220_label_t* evaluate_to_true = label_create();
     ece220_label_t* end_label = label_create();
     printf("\tBRnp %s\n", label_value(evaluate_to_true));
-    // False, push 1
+    /* False, push 1 */
     printf("\tAND R1,R1,#0\n");
     printf("\tADD R1,R1,#1\n");
     printf("\tADD R6,R6,#-1\n");
@@ -1116,7 +1123,7 @@ gen_op_log_not (ast220_t* ast)
     printf("\tBRnzp %s\n", label_value(end_label));
 
     printf("%s\n", label_value(evaluate_to_true));
-    // Push 0
+    /* Push 0 */
     printf("\tAND R1,R1,#0\n");
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R1,R6,#0\n");
@@ -1140,7 +1147,6 @@ static void
 gen_op_log_or (ast220_t* ast)
 {
     ece220_label_t* end_label = label_create();
-    ece220_label_t* second_evaluate = label_create();
     ece220_label_t* result_true = label_create();
     ece220_label_t* result_false = label_create();
 
@@ -1160,7 +1166,7 @@ gen_op_log_or (ast220_t* ast)
     gen_long_branch(BR_ALWAYS, result_false);
 
     printf("%s\n", label_value(result_true));
-    // Push 1
+    /* Push 1 */
     printf("\tAND R1,R1,#0\n");
     printf("\tADD R1,R1,#1\n");
     printf("\tADD R6,R6,#-1\n");
@@ -1168,7 +1174,7 @@ gen_op_log_or (ast220_t* ast)
     printf("\tBRnzp %s\n", label_value(end_label));
 
     printf("%s\n", label_value(result_false));
-    // Push 0
+    /* Push 0 */
     printf("\tAND R1,R1,#0\n");
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R1,R6,#0\n");
@@ -1192,7 +1198,6 @@ static void
 gen_op_log_and (ast220_t* ast)
 {
     ece220_label_t* end_label = label_create();
-    ece220_label_t* second_evaluate = label_create();
     ece220_label_t* result_true = label_create();
     ece220_label_t* result_false = label_create();
 
@@ -1212,7 +1217,7 @@ gen_op_log_and (ast220_t* ast)
     gen_long_branch(BR_ALWAYS, result_true);
 
     printf("%s\n", label_value(result_true));
-    // Push 1
+    /* Push 1 */
     printf("\tAND R1,R1,#0\n");
     printf("\tADD R1,R1,#1\n");
     printf("\tADD R6,R6,#-1\n");
@@ -1220,7 +1225,7 @@ gen_op_log_and (ast220_t* ast)
     printf("\tBRnzp %s\n", label_value(end_label));
 
     printf("%s\n", label_value(result_false));
-    // Push 0
+    /* Push 0 */
     printf("\tAND R1,R1,#0\n");
     printf("\tADD R6,R6,#-1\n");
     printf("\tSTR R1,R6,#0\n");

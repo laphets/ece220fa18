@@ -12,12 +12,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7b985740-6bb9-4132-b113-afa33a930c9d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/tests/test.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mp11.c" beforeDir="false" afterPath="$PROJECT_DIR$/mp11.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mp11.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/mp11.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mp11base.c" beforeDir="false" afterPath="$PROJECT_DIR$/mp11base.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/outs/add.asm" beforeDir="false" afterPath="$PROJECT_DIR$/outs/add.asm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/testprog.c" beforeDir="false" afterPath="$PROJECT_DIR$/tests/testprog.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my/testprog.asm" beforeDir="false" afterPath="$PROJECT_DIR$/my/testprog.asm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my/testprog.sym" beforeDir="false" afterPath="$PROJECT_DIR$/my/testprog.sym" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,25 +31,35 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mp11.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="1109" column="20" lean-forward="true" selection-start-line="1109" selection-start-column="20" selection-end-line="1109" selection-end-column="20" />
-              <folding>
-                <element signature="e#1538#1556#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="316">
+              <caret line="499" column="5" lean-forward="true" selection-start-line="499" selection-start-column="5" selection-end-line="499" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/for.c">
-          <provider selected="true" editor-type-id="text-editor" />
+        <entry file="file://$PROJECT_DIR$/outs/a.asm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1700">
+              <caret line="85" column="16" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="16" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/if.c">
+        <entry file="file://$PROJECT_DIR$/my/a.asm">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="3800">
+              <caret line="190" column="14" selection-start-line="190" selection-start-column="14" selection-end-line="190" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -67,8 +76,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mp11base.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
+            <state relative-caret-position="2440">
+              <caret line="122" column="12" selection-start-line="122" selection-start-column="12" selection-end-line="122" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -77,7 +86,7 @@
         <entry file="file://$PROJECT_DIR$/tests/c.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+              <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -85,8 +94,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/a.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
+            <state relative-caret-position="160">
+              <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -104,16 +113,7 @@
         <entry file="file://$PROJECT_DIR$/ece220_parse.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="940">
-              <caret line="47" column="4" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/testprog.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="46" column="9" lean-forward="true" selection-start-line="46" selection-start-column="9" selection-end-line="46" selection-end-column="9" />
+              <caret line="47" column="28" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -142,6 +142,9 @@
       <find>ADD R0,R0,#0</find>
       <find>BRz</find>
       <find>gen_long_branch</find>
+      <find>br_type_t</find>
+      <find>second_evaluate</find>
+      <find>LBL18</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -155,9 +158,10 @@
         <option value="$PROJECT_DIR$/ece220_parse.tab.c" />
         <option value="$PROJECT_DIR$/outs/a.asm" />
         <option value="$PROJECT_DIR$/ece220_symtab.c" />
-        <option value="$PROJECT_DIR$/mp11base.c" />
         <option value="$PROJECT_DIR$/tests/testprog.c" />
+        <option value="$PROJECT_DIR$/tests/test.c" />
         <option value="$PROJECT_DIR$/mp11.c" />
+        <option value="$PROJECT_DIR$/mp11base.c" />
       </list>
     </option>
   </component>
@@ -275,11 +279,21 @@
       <workItem from="1545232058095" duration="8491000" />
       <workItem from="1545246419018" duration="5280000" />
       <workItem from="1545287987819" duration="2335000" />
+      <workItem from="1545480935732" duration="346000" />
+      <workItem from="1545498822964" duration="217000" />
+      <workItem from="1545532312753" duration="442000" />
+      <workItem from="1545562320803" duration="2016000" />
+      <workItem from="1545564645273" duration="1342000" />
+      <workItem from="1545646487318" duration="642000" />
+      <workItem from="1545649719045" duration="200000" />
+      <workItem from="1545650356397" duration="388000" />
+      <workItem from="1545655295863" duration="155000" />
+      <workItem from="1545657683663" duration="72000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38533000" />
+    <option name="totallyTimeSpent" value="44353000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -292,9 +306,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6161765" visible="true" weight="0.2081545" />
-      <window_info id="Structure" order="1" sideWeight="0.38382354" side_tool="true" visible="true" weight="0.2081545" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.60131794" visible="true" weight="0.23676682" />
+      <window_info id="Structure" order="1" sideWeight="0.39868203" side_tool="true" visible="true" weight="0.23676682" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -305,7 +320,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32923833" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.32923833" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.16461916" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.25429976" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="CMake" order="12" weight="0.32923833" />
@@ -323,27 +338,22 @@
       <breakpoints>
         <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/mp11base.c</url>
-          <line>66</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/mp11base.c</url>
           <line>70</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/mp11.c</url>
-          <line>127</line>
+          <line>132</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/mp11.c</url>
-          <line>399</line>
+          <line>406</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/mp11.c</url>
-          <line>210</line>
+          <line>215</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
@@ -401,13 +411,6 @@
             <element signature="e#5752#5925#0" expanded="true" />
             <element signature="e#42764#42911#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ece220_lex.yy.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="2074" selection-start-line="2074" selection-end-line="2074" />
         </state>
       </provider>
     </entry>
@@ -516,10 +519,83 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/for.c">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/if.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ece220_lex.yy.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="1500" lean-forward="true" selection-start-line="1500" selection-end-line="1500" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/testprog.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="553">
+          <caret line="69" column="9" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mp11.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="499" column="5" lean-forward="true" selection-start-line="499" selection-start-column="5" selection-end-line="499" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/outs/a.asm">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1700">
           <caret line="85" column="16" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/my/a.asm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3800">
+          <caret line="190" column="14" selection-start-line="190" selection-start-column="14" selection-end-line="190" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/addr.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mp11base.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2440">
+          <caret line="122" column="12" selection-start-line="122" selection-start-column="12" selection-end-line="122" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/c.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/a.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -533,67 +609,7 @@
     <entry file="file://$PROJECT_DIR$/ece220_parse.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="940">
-          <caret line="47" column="4" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/my/a.asm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1477" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/if.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/addr.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/a.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mp11base.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/c.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/for.c">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/testprog.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="46" column="9" lean-forward="true" selection-start-line="46" selection-start-column="9" selection-end-line="46" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mp11.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="1109" column="20" lean-forward="true" selection-start-line="1109" selection-start-column="20" selection-end-line="1109" selection-end-column="20" />
-          <folding>
-            <element signature="e#1538#1556#0" expanded="true" />
-          </folding>
+          <caret line="47" column="28" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="28" />
         </state>
       </provider>
     </entry>
