@@ -57,6 +57,8 @@
 #include "WALYSound.h"
 #include "WALYFont.h"
 
+#include <stdint.h>
+
 namespace WALY = WALY_1_0_0;
 
 #endif /* __WALY_H */

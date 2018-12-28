@@ -1,0 +1,85 @@
+cmake_minimum_required(VERSION 3.13)
+project(mp12)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(jni)
+include_directories(jni/SDL)
+include_directories(jni/WALY)
+
+add_executable(mp12
+        jni/SDL/begin_code.h
+        jni/SDL/close_code.h
+        jni/SDL/SDL.h
+        jni/SDL/SDL_active.h
+        jni/SDL/SDL_audio.h
+        jni/SDL/SDL_byteorder.h
+        jni/SDL/SDL_cdrom.h
+        jni/SDL/SDL_config.h
+        jni/SDL/SDL_cpuinfo.h
+        jni/SDL/SDL_endian.h
+        jni/SDL/SDL_error.h
+        jni/SDL/SDL_events.h
+        jni/SDL/SDL_getenv.h
+        jni/SDL/SDL_image.h
+        jni/SDL/SDL_joystick.h
+        jni/SDL/SDL_keyboard.h
+        jni/SDL/SDL_keysym.h
+        jni/SDL/SDL_loadso.h
+        jni/SDL/SDL_main.h
+        jni/SDL/SDL_mixer.h
+        jni/SDL/SDL_mouse.h
+        jni/SDL/SDL_mutex.h
+        jni/SDL/SDL_name.h
+        jni/SDL/SDL_net.h
+        jni/SDL/SDL_opengl.h
+        jni/SDL/SDL_platform.h
+        jni/SDL/SDL_quit.h
+        jni/SDL/SDL_rwops.h
+        jni/SDL/SDL_stdinc.h
+        jni/SDL/SDL_syswm.h
+        jni/SDL/SDL_thread.h
+        jni/SDL/SDL_timer.h
+        jni/SDL/SDL_ttf.h
+        jni/SDL/SDL_types.h
+        jni/SDL/SDL_version.h
+        jni/SDL/SDL_video.h
+        jni/WALY/WALY.h
+        jni/WALY/WALYButton.cpp
+        jni/WALY/WALYButton.h
+        jni/WALY/WALYDataFile.h
+        jni/WALY/WALYDigitDraw.cpp
+        jni/WALY/WALYDigitDraw.h
+        jni/WALY/WALYEntryBox.cpp
+        jni/WALY/WALYEntryBox.h
+        jni/WALY/WALYEntryBoxIP.cpp
+        jni/WALY/WALYEntryBoxIP.h
+        jni/WALY/WALYFilter.cpp
+        jni/WALY/WALYFilter.h
+        jni/WALY/WALYFont.cpp
+        jni/WALY/WALYFont.h
+        jni/WALY/WALYFrame.cpp
+        jni/WALY/WALYFrame.h
+        jni/WALY/WALYImage.cpp
+        jni/WALY/WALYImage.h
+        jni/WALY/WALYLabel.h
+        jni/WALY/WALYNetwork.cpp
+        jni/WALY/WALYNetwork.h
+        jni/WALY/WALYPlatform.cpp
+        jni/WALY/WALYPlatform.h
+        jni/WALY/WALYScreen.cpp
+        jni/WALY/WALYScreen.h
+        jni/WALY/WALYSDLStubs.h
+        jni/WALY/WALYSound.cpp
+        jni/WALY/WALYSound.h
+        jni/WALY/WALYWidget.cpp
+        jni/WALY/WALYWidget.h
+        jni/mp12.cpp
+        jni/mp12.h
+        jni/mp12main.cpp
+        jni/mp5.c
+        jni/mp5.h
+        jni/TurtleScreen.cpp
+        jni/TurtleScreen.h
+        jni/WALYmain.cpp
+        jni/WALYmain.h)

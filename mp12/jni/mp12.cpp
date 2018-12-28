@@ -57,12 +57,14 @@ int32_t	        moveColor = 0xFFFFFF;	// current movement drawing color
 int32_t
 openInputStream (const char* fname)
 {
-    return 0;
+    input = fopen(fname, "r");
+    return input != NULL;
 }
 
 void
 closeInputStream (void)
 {
+    fclose(input);
 }
 
 void
@@ -82,15 +84,22 @@ Screen::debug () << it->color << " " << it->x1 << "," << it->y1 << "  " << it->x
 void
 drawEverything (void)
 {
+    for(auto it = lines.begin(); lines.end() != it; it++) {
+        set_color(it->color);
+        draw_line(it->x1, it->y1, it->x2, it->y2);
+    }
 }
 
 void
 readNewCommand (TurtleScreen* ts)
 {
+
 }
 
 void
 frameUpdate (TurtleScreen* ts)
 {
+
+    ts->makeVisibleChange();
 }
 

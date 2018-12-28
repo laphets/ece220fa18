@@ -102,7 +102,7 @@ class Font {
 	    if (!doQuit || 0 != fontCount || 0 != TTF_Init ()) {
 		throw std::exception ();
 	    }
-	    defaultFont = new Font (WALY_FONT_DEFAULT, 20);
+	    defaultFont = new Font ("arial", 20);
 	    doQuit = false;
 	}
 	static void quit () {
